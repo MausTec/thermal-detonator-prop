@@ -1,34 +1,22 @@
 #include "ThermalWireless.h"
 
+uint8_t ThermalWireless::listenAddress = 0;
 volatile uint16_t ThermalWireless::data = 0;
 volatile uint8_t ThermalWireless::dataIndex = 255;
 volatile bool ThermalWireless::dataReady = false;
 volatile uint8_t ThermalWireless::lastAddress = 0;
 volatile uint8_t ThermalWireless::lastData = 0;
 
-void ThermalWireless::init() {
+void ThermalWireless::init(uint8_t address = 0) {
   pinMode(RX_PIN, INPUT);
   pinMode(TX_PIN, OUTPUT);
 
+  listenAddress = address;
   attachInterrupt(digitalPinToInterrupt(RX_PIN), recvPulse, CHANGE);
 }
 
 void ThermalWireless::tick() {
-  if (available()) {
-    uint8_t address = 0;
-    uint8_t data = 0;
-    get(address, data);
-
-    Serial.print("D");
-    for (int i = 3; i >= 0; i--) {
-      Serial.print((data >> i) & 1);
-    }
-
-    Serial.print("A");
-    for (int i = 7; i >= 0; i--) {
-      Serial.print((address >> i) & 1);
-    }
-  }
+  // noop
 }
 
 bool ThermalWireless::available() {
@@ -48,7 +36,6 @@ uint8_t ThermalWireless::getAddress() {
 void ThermalWireless::get(uint8_t &address, uint8_t &data) {
   address = getAddress();
   data = getData();
-  dataReady = false;
 }
 
 void ThermalWireless::recvPulse() {
@@ -76,12 +63,20 @@ void ThermalWireless::recvPulse() {
       data |= bit << (15 - dataIndex);
 
       if (dataIndex++ >= PAYLOAD_LENGTH - 1) {
+        uint8_t address = (data & 0xFF00) >> 8;
+        uint8_t localData = (data & 0x00F0) >> 4;
         dataIndex = 255;
 
         // Store the last read:
-        dataReady = true;
-        lastAddress = (data & 0xFF00) >> 8;
-        lastData = (data & 0x00F0) >> 4;
+        if (listenAddress == 0 || listenAddress == address) {
+          // Discard duplicate packets.
+          if (lastData != localData) {
+            lastAddress = address;
+            lastData = localData;
+            dataReady = true;
+            Serial.print(localData, HEX);
+          }
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
 void ThermalDetonator::init() {
   Lights.init();
   Wireless.init();
-//  Sound.init();
+  Sound.init();
 
   state = TD_IDLE;
 
@@ -29,8 +29,12 @@ void ThermalDetonator::init() {
 void ThermalDetonator::tick() {
   Enable.tick();
   Lights.tick();
-//  Sound.tick();
+  Sound.tick();
   Wireless.tick();
+
+  if (Wireless.available()) {
+    handleWireless(Wireless.getData());
+  }
 
   switch (state) {
     case TD_IDLE:
@@ -84,7 +88,27 @@ void ThermalDetonator::goEasterEgg() {
 
 //== PRIVATE
 
+void ThermalDetonator::handleWireless(uint8_t data) {
+  Serial.print("A");
+  Serial.println(Wireless.getAddress(), HEX);
+  Serial.print("D");
+  Serial.print(data, HEX);
+
+  switch (data) {
+    case 0:
+      // reset condition, don't do anything.
+      break;
+    case 1:
+      nextState();
+      break;
+    case 4:
+      goIdle();
+      break;
+  }
+}
+
 void ThermalDetonator::halt(uint8_t errorCode) {
+  return;
   while(true) {
     digitalWrite(LUMEN_1_PIN, (errorCode >> 3) & 1);
     digitalWrite(LUMEN_2_PIN, (errorCode >> 2) & 1);

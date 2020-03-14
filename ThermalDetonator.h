@@ -85,6 +85,11 @@ private:
   ThermalSound Sound = ThermalSound();
   ThermalWireless Wireless = ThermalWireless();
   OneButton Enable;
+
+  /**
+   * Handles available data on the wireless receiver.
+   */
+  void handleWireless(uint8_t data);
 };
 
 extern ThermalDetonator TD;
