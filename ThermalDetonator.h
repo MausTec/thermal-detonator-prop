@@ -19,14 +19,6 @@
 #define TD_SHUTDOWN   3
 
 /**
- * Error Codes
- */
-#define ERR_NO_SD        0b0001
-#define ERR_NO_START_WAV 0b0011
-#define ERR_NO_LOOP_WAV  0b0101
-#define ERR_NO_SHUT_WAV  0b1001
-
-/**
  * Core management class for the Thermal Detonator prop.
  * This class handles state information and transitions, but delegates other
  * control functions down to child classes.
@@ -85,6 +77,7 @@ private:
   ThermalSound Sound = ThermalSound();
   ThermalWireless Wireless = ThermalWireless();
   OneButton Enable;
+  OneButton Lever;
 
   /**
    * Handles available data on the wireless receiver.

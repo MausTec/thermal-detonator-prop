@@ -21,6 +21,8 @@
 void setup() {
   Serial.begin(115200);
 
+  Serial.println("Hello, Sabine.");
+
   // Debug Pin (for now?).
   pinMode(BLINK_PIN, OUTPUT);
 

@@ -12,6 +12,8 @@ public:
    */
   void off();
 
+  void on(uint8_t pattern, long delay);
+
   void tick();
 
   /**

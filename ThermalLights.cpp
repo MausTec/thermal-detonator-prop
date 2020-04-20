@@ -7,6 +7,11 @@ void ThermalLights::init() {
   pinMode(LUMEN_2_PIN, OUTPUT);
   pinMode(LUMEN_3_PIN, OUTPUT);
 
+  digitalWrite(LUMEN_1_PIN, HIGH);
+  digitalWrite(LUMEN_2_PIN, HIGH);
+  digitalWrite(LUMEN_3_PIN, HIGH);
+  delay(1000);
+
   off();
 }
 
@@ -86,4 +91,16 @@ void ThermalLights::off() {
   digitalWrite(LUMEN_1_PIN, LOW);
   digitalWrite(LUMEN_2_PIN, LOW);
   digitalWrite(LUMEN_3_PIN, LOW);
+}
+
+void ThermalLights::on(uint8_t pattern, long delayMs) {
+  digitalWrite(ENABLE_LUMEN_PIN, pattern & 0b0001);
+  digitalWrite(LUMEN_1_PIN, pattern & 0b0010);
+  digitalWrite(LUMEN_2_PIN, pattern & 0b0100);
+  digitalWrite(LUMEN_3_PIN, pattern & 0b1000);
+
+  if (delayMs > 0) {
+    delay(delayMs);
+    off();
+  }
 }

@@ -2,32 +2,46 @@
 
 void ThermalDetonator::init() {
   Lights.init();
+  Lights.on(0b1000, 200);
   Wireless.init();
+  Lights.on(0b0100, 200);
   Sound.init();
+  Lights.on(0b0010, 200);
 
   state = TD_IDLE;
 
   // Button Config
-  Enable = OneButton(ENABLE_SW_PIN, HIGH, false);
+  Lever = OneButton(MASTER_SW_PIN, HIGH, true);
+  Enable = OneButton(ENABLE_SW_PIN, HIGH, true);
 
+  // Lever Actions
+  Lever.attachLongPressStart([]() {
+    // Open Lever
+    TD.goStartup();
+  });
+
+  Lever.attachLongPressStop([]() {
+    // Close Lever
+    TD.goIdle();
+  });
+
+  // Enable Actions
   Enable.attachClick([]() {
-    TD.nextState();
+    TD.goArm();
   });
 
   Enable.attachLongPressStart([]() {
-    TD.goIdle();
+    TD.goStartup();
   });
 
   Enable.attachDoubleClick([]() {
     TD.goEasterEgg();
   });
-
-  // Master Switch
-  pinMode(MASTER_SW_PIN, INPUT);
 }
 
 void ThermalDetonator::tick() {
   Enable.tick();
+  Lever.tick();
   Lights.tick();
   Sound.tick();
   Wireless.tick();
@@ -62,18 +76,26 @@ void ThermalDetonator::nextState() {
 
 void ThermalDetonator::goStartup() {
   state = TD_STARTUP;
+#ifdef SD_AUDIO
   Sound.playStartup();
+#endif
 }
 
 void ThermalDetonator::goArm() {
   state = TD_LOOP;
+#ifdef SD_AUDIO
   Sound.playLoop();
+#else
+  Sound.playUnderworld();
+#endif
 }
 
 void ThermalDetonator::goIdle() {
   state = TD_IDLE;
   Lights.off();
+#ifdef SD_AUDIO
   Sound.playShutdown();
+#endif
 }
 
 void ThermalDetonator::goEasterEgg() {
@@ -108,7 +130,6 @@ void ThermalDetonator::handleWireless(uint8_t data) {
 }
 
 void ThermalDetonator::halt(uint8_t errorCode) {
-  return;
   while(true) {
     digitalWrite(LUMEN_1_PIN, (errorCode >> 3) & 1);
     digitalWrite(LUMEN_2_PIN, (errorCode >> 2) & 1);
