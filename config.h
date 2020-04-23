@@ -29,6 +29,10 @@
 #define RX_PIN            2  // PD2  4
 #define TX_PIN            A0 // PC0 23
 
+#define RF_CE_PIN         A0
+#define RF_CSN_PIN        A4
+#define RF_IRQ_PIN        2
+
 // Audio Pins
 #define SD_CS_PIN         4  // PD4  6
 #define AUDIO_OUT_PIN     9  // PB1 15

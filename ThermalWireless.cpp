@@ -1,4 +1,5 @@
 #include "ThermalWireless.h"
+#include "ThermalSystem.h"
 
 uint8_t ThermalWireless::listenAddress = 0;
 volatile uint16_t ThermalWireless::data = 0;
@@ -6,17 +7,48 @@ volatile uint8_t ThermalWireless::dataIndex = 255;
 volatile bool ThermalWireless::dataReady = false;
 volatile uint8_t ThermalWireless::lastAddress = 0;
 volatile uint8_t ThermalWireless::lastData = 0;
+const byte ThermalWireless::address[6] = {'T', 'D', 0, 0, 0, 1};
+RF24 ThermalWireless::radio = RF24(RF_CE_PIN, RF_CSN_PIN);
 
-void ThermalWireless::init(uint8_t address = 0) {
+void ThermalWireless::init(uint8_t pListenAddress = 0) {
   pinMode(RX_PIN, INPUT);
   pinMode(TX_PIN, OUTPUT);
 
-  listenAddress = address;
+  if (radio.begin()) {
+    Serial.println("Radio OK");
+  } else {
+    Serial.println("NRF Failure");
+  }
+
+  const byte wAddress[6] =  {'T', 'D', 0, 0, 0, 0};
+
+  radio.openReadingPipe(0, address);
+  radio.openWritingPipe(wAddress);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.startListening();
+
+  listenAddress = pListenAddress;
   attachInterrupt(digitalPinToInterrupt(RX_PIN), recvPulse, CHANGE);
 }
 
 void ThermalWireless::tick() {
-  // noop
+  if (radio.available()) {
+    char data[32] = "";
+    radio.read(&data, sizeof(data));
+
+    if (strcmp(data, "PING") == 0) {
+      char text[32];
+
+      uint8_t battery = System.batteryLife();
+      sprintf_P(text, PSTR("PONG BAT=%03d"), battery);
+
+      radio.stopListening();
+      radio.write(&text, sizeof(text));
+      radio.startListening();
+    }
+
+    Serial.println(data);
+  }
 }
 
 bool ThermalWireless::available() {

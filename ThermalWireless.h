@@ -2,6 +2,8 @@
 #define __THERMAL_WIRELESS_h
 
 #include <Arduino.h>
+#include <nRF24L01.h>
+#include <RF24.h>
 
 #include "config.h"
 
@@ -52,6 +54,9 @@ public:
   void get(uint8_t &address, uint8_t &data);
 
 private:
+  static RF24 radio;
+  const static byte address[6];
+
   static uint8_t listenAddress;
   volatile static uint16_t data;
   volatile static uint8_t dataIndex;
