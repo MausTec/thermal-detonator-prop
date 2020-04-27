@@ -20,6 +20,8 @@
 #define TD_STARTUP    1
 #define TD_LOOP       2
 #define TD_SHUTDOWN   3
+#define TD_WX_PAIR    4
+#define TD_BATTERY    5
 
 /**
  * Core management class for the Thermal Detonator prop.

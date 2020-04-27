@@ -110,11 +110,23 @@ void ThermalDetonator::doSinglePress() {
 
 void ThermalDetonator::doDoublePress() {
   switch (state) {
+    case TD_STARTUP:
+      // goWirelessPair();
+      break;
+
+    case TD_LOOP:
+    case TD_IDLE:
+      goEasterEgg();
+      break;
   }
 }
 
 void ThermalDetonator::doLongPress() {
   switch (state) {
+    case TD_STARTUP:
+      // goBatteryLevel();
+      break;
+
     case TD_LOOP:
       goStartup();
       break;
