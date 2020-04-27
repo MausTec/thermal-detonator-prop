@@ -16,7 +16,13 @@
  * Define SD_AUDIO to enable the SD card audio, otherwise
  * all you can play are chiptunes.
  */
-#define SD_AUDIO 1
+#define SD_AUDIO
+
+/**
+ * Define USE_WIRELESS to enable the NRF24 / HT12 wireless
+ * modules.
+ */
+//#define USE_WIRELESS
 
 /**
  * Pin Configuration

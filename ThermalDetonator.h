@@ -8,7 +8,10 @@
 
 #include "ThermalLights.h"
 #include "ThermalSound.h"
+
+#ifdef USE_WIRELESS
 #include "ThermalWireless.h"
+#endif
 
 /**
  * State Constants
@@ -33,6 +36,15 @@ class ThermalDetonator {
 public:
   void init();
   void tick();
+
+  /****
+   * State Machine Events
+   */
+  void doLeverOpen();
+  void doLeverClose();
+  void doSinglePress();
+  void doDoublePress();
+  void doLongPress();
 
   /**
    * Step through the lazy state machine, doing whatever is logically
@@ -74,15 +86,22 @@ public:
 private:
   uint8_t state = TD_IDLE;
   ThermalLights Lights = ThermalLights();
+
+#ifdef SD_AUDIO
   ThermalSound Sound = ThermalSound();
+#endif
+
+#ifdef USE_WIRELESS
   ThermalWireless Wireless = ThermalWireless();
-  OneButton Enable;
-  OneButton Lever;
 
   /**
    * Handles available data on the wireless receiver.
    */
   void handleWireless(uint8_t data);
+#endif
+
+  OneButton Enable;
+  OneButton Lever;
 };
 
 extern ThermalDetonator TD;

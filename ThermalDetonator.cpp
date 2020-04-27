@@ -3,10 +3,16 @@
 void ThermalDetonator::init() {
   Lights.init();
   Lights.on(0b1000, 200);
+
+#ifdef USE_WIRELESS
   Wireless.init();
   Lights.on(0b0100, 200);
+#endif
+
+#ifdef SD_AUDIO
   Sound.init();
   Lights.on(0b0010, 200);
+#endif
 
   state = TD_IDLE;
 
@@ -15,27 +21,27 @@ void ThermalDetonator::init() {
   Enable = OneButton(ENABLE_SW_PIN, HIGH, true);
 
   // Lever Actions
-  Lever.attachLongPressStart([]() {
+  Lever.attachPressStart([]() {
     // Open Lever
-    TD.goStartup();
+    TD.doLeverOpen();
   });
 
   Lever.attachLongPressStop([]() {
     // Close Lever
-    TD.goIdle();
+    TD.doLeverClose();
   });
 
   // Enable Actions
   Enable.attachClick([]() {
-    TD.goArm();
+    TD.doSinglePress();
   });
 
   Enable.attachLongPressStart([]() {
-    TD.goStartup();
+    TD.doLongPress();
   });
 
   Enable.attachDoubleClick([]() {
-    TD.goEasterEgg();
+    TD.doDoublePress();
   });
 }
 
@@ -43,17 +49,25 @@ void ThermalDetonator::tick() {
   Enable.tick();
   Lever.tick();
   Lights.tick();
+
+#ifdef SD_AUDIO
   Sound.tick();
+#endif
+
+#ifdef USE_WIRELESS
   Wireless.tick();
 
   if (Wireless.available()) {
     handleWireless(Wireless.getData());
   }
+#endif
 
   switch (state) {
+#ifdef DEBUG
     case TD_IDLE:
       Lights.blinkSwitch(5000, 1000);
       break;
+#endif
 
     case TD_STARTUP:
       Lights.blinkSwitch(1000, 200);
@@ -66,16 +80,66 @@ void ThermalDetonator::tick() {
   }
 }
 
+/****
+ * State Machine Events
+ */
+
+void ThermalDetonator::doLeverOpen() {
+  switch (state) {
+    case TD_IDLE:
+      goStartup();
+      break;
+  }
+}
+
+void ThermalDetonator::doLeverClose() {
+  switch (state) {
+    default:
+      goIdle();
+      break;
+  }
+}
+
+void ThermalDetonator::doSinglePress() {
+  switch (state) {
+    case TD_STARTUP:
+      goArm();
+      break;
+  }
+}
+
+void ThermalDetonator::doDoublePress() {
+  switch (state) {
+  }
+}
+
+void ThermalDetonator::doLongPress() {
+  switch (state) {
+    case TD_LOOP:
+      goStartup();
+      break;
+  }
+}
+
+
+/****
+ * State Machine Transitions
+ */
+
 void ThermalDetonator::nextState() {
-  if (state == TD_IDLE) {
-    goStartup();
-  } else {
-    goArm();
+  switch(state) {
+    case TD_IDLE:
+      goStartup();
+      break;
+    case TD_STARTUP:
+      goArm();
+      break;
   }
 }
 
 void ThermalDetonator::goStartup() {
   state = TD_STARTUP;
+  Lights.off();
 #ifdef SD_AUDIO
   Sound.playStartup();
 #endif
@@ -83,10 +147,9 @@ void ThermalDetonator::goStartup() {
 
 void ThermalDetonator::goArm() {
   state = TD_LOOP;
+  Lights.off();
 #ifdef SD_AUDIO
   Sound.playLoop();
-#else
-  Sound.playUnderworld();
 #endif
 }
 
@@ -110,6 +173,7 @@ void ThermalDetonator::goEasterEgg() {
 
 //== PRIVATE
 
+#ifdef USE_WIRELESS
 void ThermalDetonator::handleWireless(uint8_t data) {
   Serial.print("A");
   Serial.println(Wireless.getAddress(), HEX);
@@ -128,6 +192,7 @@ void ThermalDetonator::handleWireless(uint8_t data) {
       break;
   }
 }
+#endif
 
 void ThermalDetonator::halt(uint8_t errorCode) {
   while(true) {
