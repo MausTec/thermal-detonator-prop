@@ -1,5 +1,5 @@
-#include "ThermalSound.h"
-#include "ThermalDetonator.h"
+#include "../include/ThermalSound.h"
+#include "../include/ThermalDetonator.h"
 
 void ThermalSound::init() {
   pinMode(AUDIO_OUT_PIN, OUTPUT);

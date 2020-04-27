@@ -1,5 +1,5 @@
-#include "ThermalWireless.h"
-#include "ThermalSystem.h"
+#include "../include/ThermalWireless.h"
+#include "../include/ThermalSystem.h"
 
 uint8_t ThermalWireless::listenAddress = 0;
 volatile uint16_t ThermalWireless::data = 0;

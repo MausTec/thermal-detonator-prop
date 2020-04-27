@@ -1,5 +1,5 @@
-#include "ThermalLights.h"
-#include "ThermalDetonator.h"
+#include "../include/ThermalLights.h"
+#include "../include/ThermalDetonator.h"
 
 void ThermalLights::init() {
   pinMode(ENABLE_LUMEN_PIN, OUTPUT);

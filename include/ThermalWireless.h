@@ -5,7 +5,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 
-#include "config.h"
+#include "../config.h"
 
 #define PAYLOAD_LENGTH 12
 

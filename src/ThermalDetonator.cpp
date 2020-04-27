@@ -1,4 +1,4 @@
-#include "ThermalDetonator.h"
+#include "../include/ThermalDetonator.h"
 
 void ThermalDetonator::init() {
   Lights.init();

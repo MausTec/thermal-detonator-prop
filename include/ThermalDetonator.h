@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <OneButton.h>
 
-#include "config.h"
+#include "../config.h"
 
 #include "ThermalLights.h"
 #include "ThermalSound.h"

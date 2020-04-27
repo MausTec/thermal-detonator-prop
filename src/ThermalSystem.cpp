@@ -1,6 +1,6 @@
-#include "ThermalSystem.h"
+#include "../include/ThermalSystem.h"
 
-#include "config.h"
+#include "../config.h"
 
 byte ThermalSystem::batteryLife() {
   int value = analogRead(VBAT_SENSE_PIN);

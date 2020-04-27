@@ -16,7 +16,7 @@
 #include <Arduino.h>
 
 #include "config.h"
-#include "ThermalDetonator.h"
+#include "include/ThermalDetonator.h"
 
 void setup() {
   Serial.begin(115200);
