@@ -2,12 +2,15 @@
 
 #include "../config.h"
 
+#define BAT_MIN 3.4
+#define BAT_MAX 4.2
+
 byte ThermalSystem::batteryLife() {
   int value = analogRead(VBAT_SENSE_PIN);
   float voltage = value * 5.0 / 1023;
 
   float result = (
-      (voltage - 3.6) * (100 - 0) / (4.2 - 3.6) + 0
+      (voltage - BAT_MIN) * (100 - 0) / (BAT_MAX - BAT_MIN) + 0
   );
 
   Serial.print("Battery = ");
@@ -16,9 +19,13 @@ byte ThermalSystem::batteryLife() {
   Serial.print(result);
   Serial.println("%)");
 
-  if (voltage > 4.4) {
+  if (voltage > BAT_MAX) {
     Serial.println("  (Charging?)");
   }
+
+  // Here we don't want to go below 0%
+  result = max(result, 0);
+  result = min(result, 255);
 
   return floor(result);
 }

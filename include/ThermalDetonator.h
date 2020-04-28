@@ -80,6 +80,11 @@ public:
   void goEasterEgg();
 
   /**
+   * Displays the current battery level on the LEDs.
+   */
+  void goBatteryLevel();
+
+  /**
    * Halts program and outputs an error code on the Blinkenlights.
    * @param errorCode 4-bits only, plz.
    */

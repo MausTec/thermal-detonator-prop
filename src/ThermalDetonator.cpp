@@ -1,4 +1,5 @@
 #include "../include/ThermalDetonator.h"
+#include "../include/ThermalSystem.h"
 
 void ThermalDetonator::init() {
   Lights.init();
@@ -124,7 +125,7 @@ void ThermalDetonator::doDoublePress() {
 void ThermalDetonator::doLongPress() {
   switch (state) {
     case TD_STARTUP:
-      // goBatteryLevel();
+      goBatteryLevel();
       break;
 
     case TD_LOOP:
@@ -180,6 +181,19 @@ void ThermalDetonator::goEasterEgg() {
     state = TD_IDLE;
     Lights.off();
     Sound.playMoira();
+  }
+}
+
+void ThermalDetonator::goBatteryLevel() {
+  byte level = System.batteryLife();
+  Serial.print("Battery level: ");
+  Serial.println(level);
+  if (level >= 90) {
+    Lights.on(0b1110, 1000);
+  } else if (level >= 50) {
+    Lights.on(0b1100, 1000);
+  } else {
+    Lights.on(0b1000, 1000);
   }
 }
 
