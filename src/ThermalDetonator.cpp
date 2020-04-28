@@ -112,7 +112,7 @@ void ThermalDetonator::doSinglePress() {
 void ThermalDetonator::doDoublePress() {
   switch (state) {
     case TD_STARTUP:
-      // goWirelessPair();
+      stepVolumeDown();
       break;
 
     case TD_LOOP:
@@ -194,6 +194,17 @@ void ThermalDetonator::goBatteryLevel() {
     Lights.on(0b1100, 1000);
   } else {
     Lights.on(0b1000, 1000);
+  }
+}
+
+void ThermalDetonator::stepVolumeDown() {
+  byte vol = Sound.stepVolumeDown();
+  if (vol >= 5) {
+    Lights.on(0b1110, 500);
+  } else if (vol >= 3) {
+    Lights.on(0b1100, 500);
+  } else {
+    Lights.on(0b1000, 500);
   }
 }
 

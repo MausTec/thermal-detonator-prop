@@ -17,7 +17,7 @@ void ThermalSound::init() {
 
   Audio.speakerPin = AUDIO_OUT_PIN;
   Audio.quality(1);
-  Audio.setVolume(5);
+  Audio.setVolume(volume);
   Audio.loop(0);
 
   // Check Files
@@ -28,6 +28,20 @@ void ThermalSound::init() {
   if (! SD.exists("TD/shutdown.wav"))
     ThermalDetonator::halt(ERR_NO_SHUT_WAV);
 #endif
+}
+
+byte ThermalSound::stepVolumeDown() {
+  volume -= 3;
+
+  // Don't exceed maximum volume:
+  if (volume > 7)
+    volume = 7;
+
+  Serial.print("Setting volume to ");
+  Serial.println(volume);
+  Audio.setVolume(volume);
+  playBeep();
+  return volume;
 }
 
 void ThermalSound::tick() {
@@ -51,6 +65,11 @@ void ThermalSound::stop() {
 void ThermalSound::playStartup() {
   loop(false);
   Audio.play("TD/startup.wav");
+}
+
+void ThermalSound::playBeep() {
+  loop(false);
+  Audio.play("Bonus/beep.wav");
 }
 
 void ThermalSound::playLoop() {

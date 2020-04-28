@@ -90,6 +90,11 @@ public:
    */
   static void halt(uint8_t errorCode);
 
+  /**
+   * Step down the volume.
+   */
+ void stepVolumeDown();
+
 private:
   uint8_t state = TD_IDLE;
   ThermalLights Lights = ThermalLights();

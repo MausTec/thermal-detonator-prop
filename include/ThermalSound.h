@@ -47,10 +47,22 @@ public:
    */
   void playLaundry();
 
+  /**
+   * Plays a simple beep.
+   */
+ void playBeep();
+
+  /**
+   * Decrement volume in a cycle
+   */
+
+  byte stepVolumeDown();
+
 private:
   bool stopRequested = false;
   bool playing = false;
   TMRpcm Audio;
+  byte volume = 5;
 
   void loop(bool forever);
 };
