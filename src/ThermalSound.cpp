@@ -1,3 +1,4 @@
+#ifdef SD_AUDIO
 #include "../include/ThermalSound.h"
 #include "../include/ThermalDetonator.h"
 
@@ -105,3 +106,4 @@ void ThermalSound::loop(bool forever) {
   delay(100); // Give the amp time to warm up
   playing = true;
 }
+#endif

@@ -19,9 +19,10 @@
 #include "include/ThermalDetonator.h"
 
 void setup() {
+#ifdef USE_SERIAL
   Serial.begin(115200);
-
   Serial.println("Hello, Sabine.");
+#endif
 
   // Debug Pin (for now?).
   pinMode(BLINK_PIN, OUTPUT);

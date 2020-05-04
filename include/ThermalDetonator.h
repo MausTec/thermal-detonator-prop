@@ -7,7 +7,10 @@
 #include "../config.h"
 
 #include "ThermalLights.h"
+
+#ifdef SD_AUDIO
 #include "ThermalSound.h"
+#endif
 
 #ifdef USE_WIRELESS
 #include "ThermalWireless.h"

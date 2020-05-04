@@ -176,18 +176,26 @@ void ThermalDetonator::goIdle() {
 
 void ThermalDetonator::goEasterEgg() {
   if (state == TD_IDLE) {
+#ifdef SD_AUDIO
     Sound.playLaundry();
+#endif
   } else {
     state = TD_IDLE;
     Lights.off();
+#ifdef SD_AUDIO
     Sound.playMoira();
+#endif
   }
 }
 
 void ThermalDetonator::goBatteryLevel() {
   byte level = System.batteryLife();
+
+#ifdef USE_SERIAL
   Serial.print("Battery level: ");
   Serial.println(level);
+#endif
+
   if (level >= 90) {
     Lights.on(0b1110, 1000);
   } else if (level >= 50) {
@@ -198,6 +206,7 @@ void ThermalDetonator::goBatteryLevel() {
 }
 
 void ThermalDetonator::stepVolumeDown() {
+#ifdef SD_AUDIO
   byte vol = Sound.stepVolumeDown();
   if (vol >= 5) {
     Lights.on(0b1110, 500);
@@ -206,16 +215,19 @@ void ThermalDetonator::stepVolumeDown() {
   } else {
     Lights.on(0b1000, 500);
   }
+#endif
 }
 
 //== PRIVATE
 
 #ifdef USE_WIRELESS
 void ThermalDetonator::handleWireless(uint8_t data) {
+#ifdef USE_SERIAL
   Serial.print("A");
   Serial.println(Wireless.getAddress(), HEX);
   Serial.print("D");
   Serial.print(data, HEX);
+#endif
 
   switch (data) {
     case 0:

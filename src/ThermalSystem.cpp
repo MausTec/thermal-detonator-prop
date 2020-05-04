@@ -13,6 +13,7 @@ byte ThermalSystem::batteryLife() {
       (voltage - BAT_MIN) * (100 - 0) / (BAT_MAX - BAT_MIN) + 0
   );
 
+#ifdef USE_SERIAL
   Serial.print("Battery = ");
   Serial.print(voltage);
   Serial.print("v (");
@@ -22,6 +23,7 @@ byte ThermalSystem::batteryLife() {
   if (voltage > BAT_MAX) {
     Serial.println("  (Charging?)");
   }
+#endif
 
   // Here we don't want to go below 0%
   result = max(result, 0);
