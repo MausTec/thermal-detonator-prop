@@ -1,3 +1,5 @@
+#include "../config.h"
+
 #ifdef SD_AUDIO
 #include "../include/ThermalSound.h"
 #include "../include/ThermalDetonator.h"
@@ -38,8 +40,10 @@ byte ThermalSound::stepVolumeDown() {
   if (volume > 7)
     volume = 7;
 
+#ifdef USE_SERIAL
   Serial.print("Setting volume to ");
   Serial.println(volume);
+#endif
   Audio.setVolume(volume);
   playBeep();
   return volume;

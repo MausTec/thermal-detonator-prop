@@ -6,7 +6,7 @@
 /**
  * Define ATTiny here if compiling for a tiny.
  */
-#define ATTINY
+//#define ATTINY
 
 /**
  * MISC Settings
@@ -20,13 +20,13 @@
 /**
  * Define USE_SERIAL to enable Serial IO and debugging.
  */
-//#define USE_SERIAL
+#define USE_SERIAL
 
 /**
  * Define SD_AUDIO to enable the SD card audio, otherwise
  * all you can play are chiptunes.
  */
-//#define SD_AUDIO
+#define SD_AUDIO
 
 /**
  * Define USE_WIRELESS to enable the NRF24 / HT12 wireless
