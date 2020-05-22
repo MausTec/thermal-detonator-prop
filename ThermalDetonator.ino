@@ -24,9 +24,6 @@ void setup() {
   Serial.println("Hello, Sabine.");
 #endif
 
-  // Debug Pin (for now?).
-  pinMode(BLINK_PIN, OUTPUT);
-
   TD.init();
 }
 

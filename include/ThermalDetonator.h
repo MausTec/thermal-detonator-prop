@@ -75,6 +75,7 @@ public:
    */
   void goIdle();
 
+#ifndef ATTINY
   /**
    * Plays an easter egg sound. If the prop was armed, this shuts it down
    * with a Moira voice line. If the prop was idle, this will drop some sick
@@ -86,6 +87,7 @@ public:
    * Displays the current battery level on the LEDs.
    */
   void goBatteryLevel();
+#endif
 
   /**
    * Halts program and outputs an error code on the Blinkenlights.
@@ -116,7 +118,10 @@ private:
 #endif
 
   OneButton Enable;
+
+#ifdef MASTER_SW_PIN
   OneButton Lever;
+#endif
 };
 
 extern ThermalDetonator TD;

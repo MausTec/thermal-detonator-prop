@@ -6,6 +6,7 @@
 #define BAT_MAX 4.2
 
 byte ThermalSystem::batteryLife() {
+#ifdef VBAT_SENSE_PIN
   int value = analogRead(VBAT_SENSE_PIN);
   float voltage = value * 5.0 / 1023;
 
@@ -30,6 +31,9 @@ byte ThermalSystem::batteryLife() {
   result = min(result, 255);
 
   return floor(result);
+#else
+  return 0;
+#endif
 }
 
 ThermalSystem System = ThermalSystem();
