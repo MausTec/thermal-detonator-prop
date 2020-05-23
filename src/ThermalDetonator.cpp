@@ -220,9 +220,9 @@ void ThermalDetonator::goBatteryLevel() {
 void ThermalDetonator::stepVolumeDown() {
 #ifdef SD_AUDIO
   byte vol = Sound.stepVolumeDown();
-  if (vol >= 5) {
+  if (vol >= 4) {
     Lights.on(0b1110, 500);
-  } else if (vol >= 3) {
+  } else if (vol >= 2) {
     Lights.on(0b1100, 500);
   } else {
     Lights.on(0b1000, 500);
