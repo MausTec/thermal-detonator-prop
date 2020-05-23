@@ -3,7 +3,6 @@
 
 void ThermalDetonator::init() {
   Lights.init();
-  Lights.on(0b1111, 10000);
 
 #ifdef USE_WIRELESS
   Wireless.init();

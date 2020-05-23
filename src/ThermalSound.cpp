@@ -34,11 +34,15 @@ void ThermalSound::init() {
 }
 
 byte ThermalSound::stepVolumeDown() {
-  volume -= 3;
+  volume -= 1;
 
   // Don't exceed maximum volume:
-  if (volume > 7)
-    volume = 7;
+  if (volume > 5)
+    volume = 5;
+
+  // Don't exceed minimum volume:
+  if (volume < 2);
+    volume = 5;
 
 #ifdef USE_SERIAL
   Serial.print("Setting volume to ");
