@@ -1,3 +1,4 @@
+#include "../config.h"
 #ifdef USE_WIRELESS
 #include "../include/ThermalWireless.h"
 #include "../include/ThermalSystem.h"

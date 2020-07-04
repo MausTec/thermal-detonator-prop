@@ -7,10 +7,12 @@ void ThermalLights::init() {
   pinMode(LUMEN_2_PIN, OUTPUT);
   pinMode(LUMEN_3_PIN, OUTPUT);
 
+#ifndef ATTINY
   digitalWrite(LUMEN_1_PIN, HIGH);
   digitalWrite(LUMEN_2_PIN, HIGH);
   digitalWrite(LUMEN_3_PIN, HIGH);
   delay(1000);
+#endif
 
   off();
 }

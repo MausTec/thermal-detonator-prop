@@ -48,11 +48,17 @@ void ThermalDetonator::init() {
   Enable.attachDoubleClick([]() {
     TD.doDoublePress();
   });
+
+#ifdef SD_AUDIO
+  Sound.playBeep();
+#endif
 }
 
 void ThermalDetonator::tick() {
   Enable.tick();
+#ifdef MASTER_SW_PIN
   Lever.tick();
+#endif
   Lights.tick();
 
 #ifdef SD_AUDIO
