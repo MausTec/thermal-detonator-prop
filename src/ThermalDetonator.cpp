@@ -31,7 +31,10 @@ void ThermalDetonator::init() {
 
   state = TD_IDLE;
 #else
-  state = TD_STARTUP;
+  if (digitalRead(ENABLE_SW_PIN) == LOW)
+    state = TD_LOOP;
+  else
+    state = TD_STARTUP;
 #endif
 
   Enable = OneButton(ENABLE_SW_PIN, HIGH, true);
@@ -145,7 +148,9 @@ void ThermalDetonator::doLongPress() {
 #endif
 
     case TD_LOOP:
+#ifdef MASTER_SW_PIN
       goStartup();
+#endif
       break;
   }
 }

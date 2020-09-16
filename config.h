@@ -6,7 +6,7 @@
 /**
  * Define ATTiny here if compiling for a tiny.
  */
-#define ATTINY
+//#define ATTINY
 
 /**
  * Pin Configuration
@@ -46,7 +46,7 @@
   /**
    * Define USE_SERIAL to enable Serial IO and debugging.
    */
-  #define USE_SERIAL
+  //#define USE_SERIAL
 
   /**
    * Define SD_AUDIO to enable the SD card audio, otherwise
@@ -58,8 +58,14 @@
    * Define USE_WIRELESS to enable the NRF24 / HT12 wireless
    * modules.
    */
-  #define USE_WIRELESS
+  //#define USE_WIRELESS
 
+  #define MASTER_SW_PIN     7  // PD7 13
+  #define ENABLE_SW_PIN     8  // PB0 14
+  #define ENABLE_LUMEN_PIN  5  // PD5 11
+  #define LUMEN_1_PIN       3  // PD3 05
+  #define LUMEN_2_PIN       6  // PD6  12
+  #define LUMEN_3_PIN       10 // PB2 16
 #endif
 
 // TD Pins
@@ -78,13 +84,6 @@
     #define LUMEN_2_PIN       0
     #define LUMEN_3_PIN       2
   #endif
-#else
-  #define MASTER_SW_PIN     7  // PD7 13
-  #define ENABLE_SW_PIN     8  // PB0 14
-  #define ENABLE_LUMEN_PIN  5  // PD5 11
-  #define LUMEN_1_PIN       3  // PD3 05
-  #define LUMEN_2_PIN       6  // PD6  12
-  #define LUMEN_3_PIN       10 // PB2 16
 #endif
 
 #endif
