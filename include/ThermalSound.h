@@ -52,6 +52,12 @@ public:
    */
  void playBeep();
 
+ /**
+  * Checks if audio is still playing.
+  * @return true if playing
+  */
+ bool isPlaying();
+
   /**
    * Decrement volume in a cycle
    */

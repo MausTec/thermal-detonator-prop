@@ -22,10 +22,10 @@ AVR_BIN = 'C:\Program Files (x86)\Arduino\hardware\tools\avr\bin'
 # -build-path C:\Users\eiser.000\AppData\Local\Temp\arduino_build_947831
 # -warnings=none
 # -prefs=build.warn_data_percentage=75
-# -prefs=runtime.tools.avr-gcc.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
-# -prefs=runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
-# -prefs=runtime.tools.avrdude.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
-# -prefs=runtime.tools.avrdude-6.3.0-arduino9.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
+# -prefs=runtime.tools.avr-gcc.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
+# -prefs=runtime.tools.avr-gcc-5.4.0-atmel3.6.1-arduino2.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
+# -prefs=runtime.tools.avrdude.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
+# -prefs=runtime.tools.avrdude-6.3.0-arduino14.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
 # -prefs=runtime.tools.arduinoOTA.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.1.1
 # -prefs=runtime.tools.arduinoOTA-1.1.1.path=C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.1.1
 # -verbose E:\Documents\Arduino\ThermalDetonator\ThermalDetonator.ino
@@ -84,12 +84,12 @@ class AVR
 
     prefs = {
         "build.warn_data_percentage": 75,
-        "runtime.tools.avr-gcc.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2',
-        "runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2',
-        "runtime.tools.avrdude.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9',
-        "runtime.tools.avrdude-6.3.0-arduino9.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9',
-        "runtime.tools.arduinoOTA.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.1.1',
-        "runtime.tools.arduinoOTA-1.1.1.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.1.1'
+        "runtime.tools.avr-gcc.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2',
+        "runtime.tools.avr-gcc-5.4.0-atmel3.6.1-arduino2.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2',
+        "runtime.tools.avrdude.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14',
+        "runtime.tools.avrdude-6.3.0-arduino14.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14',
+        "runtime.tools.arduinoOTA.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.2.1',
+        "runtime.tools.arduinoOTA-1.2.1.path": 'C:\Users\eiser.000\AppData\Local\Arduino15\packages\arduino\tools\arduinoOTA\1.2.1'
     }
 
     args = ["-compile", *(options.collect { |k, v| ["-" + k.to_s, v.to_s] }.flatten)]

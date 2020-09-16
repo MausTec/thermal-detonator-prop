@@ -33,6 +33,10 @@ void ThermalSound::init() {
 #endif
 }
 
+bool ThermalSound::isPlaying() {
+  return playing;
+}
+
 byte ThermalSound::stepVolumeDown() {
   volume -= 1;
 

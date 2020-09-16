@@ -1,8 +1,30 @@
 #include "../include/ThermalDetonator.h"
 #include "../include/ThermalSystem.h"
+#include <avr/sleep.h>
+#include <avr/wdt.h>
+
+void reboot() {
+  wdt_enable(WDTO_60MS);
+  while(1) {}
+}
+
+#ifndef ATTINY
+EMPTY_INTERRUPT(PCINT0_vect);
+EMPTY_INTERRUPT(PCINT2_vect);
+#endif
 
 void ThermalDetonator::init() {
   Lights.init();
+
+  // Setup Interrupts
+#ifndef ATTINY
+  // PCINT0  PCMSK0<<0
+  // PCINT23 PCMSK2<<7
+  // PCICR   0,2
+  PCMSK0 |= (1 << PCINT0);  // want pin A0
+  PCMSK2 |= (1 << PCINT23);
+  PCICR  |= (1 << PCIE0) | (1 << PCIE2);   // enable pin change interrupts for A0 to A5
+#endif
 
 #ifdef USE_WIRELESS
   Wireless.init();
@@ -66,6 +88,16 @@ void ThermalDetonator::tick() {
 
 #ifdef SD_AUDIO
   Sound.tick();
+#endif
+
+#ifdef MASTER_SW_PIN
+  // Long press (>10s) to reset.
+  static long reset_timeout = millis();
+  if (digitalRead(ENABLE_SW_PIN) == HIGH)
+    reset_timeout = millis();
+  if (millis() - reset_timeout > 10000) {
+    reboot();
+  }
 #endif
 
 #ifdef USE_WIRELESS
@@ -192,6 +224,17 @@ void ThermalDetonator::goIdle() {
   Lights.off();
 #ifdef SD_AUDIO
   Sound.playShutdown();
+#endif
+
+#ifndef ATTINY
+  long timeout_at = millis() + 5000;
+  while (Sound.isPlaying() && millis() < timeout_at) {
+    Sound.tick();
+    delay(100);
+  }
+  // low power state
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  sleep_mode();
 #endif
 }
 
