@@ -14,11 +14,16 @@
  */
 
 #include <Arduino.h>
+#include <avr/wdt.h>
 
 #include "config.h"
 #include "include/ThermalDetonator.h"
 
 void setup() {
+  // Disable WDT
+  MCUSR = 0;
+  wdt_disable();
+
 #ifdef USE_SERIAL
   Serial.begin(115200);
   Serial.println("Hello, Sabine.");

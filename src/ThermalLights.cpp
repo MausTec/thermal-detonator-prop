@@ -11,7 +11,7 @@ void ThermalLights::init() {
   digitalWrite(LUMEN_1_PIN, HIGH);
   digitalWrite(LUMEN_2_PIN, HIGH);
   digitalWrite(LUMEN_3_PIN, HIGH);
-  delay(1000);
+  delay(100);
 #endif
 
   off();

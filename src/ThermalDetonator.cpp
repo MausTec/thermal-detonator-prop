@@ -4,7 +4,8 @@
 #include <avr/wdt.h>
 
 void reboot() {
-  wdt_enable(WDTO_60MS);
+  digitalWrite(LUMEN_1_PIN, HIGH);
+  wdt_enable(WDTO_1S);
   while(1) {}
 }
 

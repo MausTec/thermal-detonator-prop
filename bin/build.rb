@@ -38,6 +38,7 @@ TEXT
 
   opt :out, "Target to write files to", type: :string
   opt :assets, "Include assets", default: true
+  opt :compile, "Compile source", default: true
   opt :avr_bin, "Path to avr bin directory", default: AVR_BIN
 end
 
@@ -150,10 +151,12 @@ class AVR
   end
 end
 
-avr = AVR.new(opts[:avr_bin])
-avr.compile input_file: "ThermalDetonator.ino"
-avr.objcopy input_file: "tmp/ThermalDetonator.ino.hex",
-            output_file: "build/FIRMWARE.BIN"
+if opts[:compile]
+  avr = AVR.new(opts[:avr_bin])
+  avr.compile input_file: "ThermalDetonator.ino"
+  avr.objcopy input_file: "tmp/ThermalDetonator.ino.hex",
+              output_file: "build/FIRMWARE.BIN"
+end
 
 if opts[:out]
   target = opts[:out] + "\\FIRMWARE.BIN"
